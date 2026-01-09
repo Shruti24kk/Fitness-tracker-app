@@ -1,0 +1,42 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: ftwp-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  ai:
+    build: ./ai_service
+    container_name: ftwp-ai
+    ports:
+      - "8000:8000"
+
+  backend:
+    build: ./backend
+    container_name: ftwp-backend
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo:27017/ftwp
+      - JWT_SECRET=dev_secret_change_me
+      - AI_SERVICE_URL=http://ai:8000
+      - CORS_ORIGIN=http://localhost:5173
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+      - ai
+
+  frontend:
+    build: ./frontend
+    container_name: ftwp-frontend
+    environment:
+      - VITE_API_BASE=http://localhost:4000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
