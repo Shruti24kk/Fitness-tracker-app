@@ -1,5 +1,5 @@
 # Fitness-tracker-app
-# Fitness Tracker & Workout Plan (Team 02)
+# Fitness Tracker & Workout Plan 
 
 A full-stack web app for logging workouts, setting goals, tracking progress, and getting AI-powered workout recommendations.
 
